@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <!-- Meta tags para codificação e responsividade -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <title>Tabela de 3 Colunas</title>
+    <style>
+        /* Estilos para a tabela */
+        * {
+            margin: 1px;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Yanone Kaffeesatz", sans-serif;
+        }
+
+        table {
+            width: 50%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 2px solid #ffffff;
+            text-align: left;
+            padding: 10px;
+            background-color: #F2F2F2;
+            
+            
+        }
+
+        th {
+            background-color: #FF573C;
+            color: white;
+            
+            
+        }
+
+        span {
+            color: #FF573C;
+            margin: 1px;
+            padding: 5px;
+            box-sizing: border-box;
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #FF573C;
+            color: white;
+            border: none;
+            width: 100px;
+            height: 30px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="tutorial">
+        <h2>Como Utilizar:</h2>
+        <p>Preencha os dados abaixo de acordo com o <span>valor do investimento</span> e o <span>tipo de campanha.</span></p>
+        <span>O valor mínimo de invesitmento é R$ 10.000,00</span>
+    </div><br>
+
+    <!-- Input de valores -->
+    <label for="valor-input">Investimento: </label>
+    <input type="text" id="valor-input">
+
+    <br><br>
+
+    <span>Cada campanha tem seu Valor Único que será utilizado como referência para cálculo de estimativa de resultados totais</span> 
+    
+    <br><br>
+
+    <!-- Caixa de seleção para o tipo de campanha -->
+    <label for="tipo-campanha">Tipo de Campanha: </label>
+    <select id="tipo-campanha">
+        <option value="--"></option>
+        <option value="CPC">CPC</option>
+        <option value="CPL">CPL</option>
+        <option value="CPM">CPM</option>
+    </select> <br>
+
+    <br><br>
+
+    <span>Abaixo ficará a tabela que será utilizada para plano de mídia e investimento a ser compartilhada na proposta e com o cliente</span> 
+
+    <br><br>
+
+    <!-- Tabela -->
+    <table>
+        <tr>
+            <th>Formato</th>
+            <th>%</th>
+            <th>Tipo de Compra</th>
+            <th>Moeda</th>
+            <th>Valor Único</th>
+            <th>Investimento</th>
+            <th>Estimativa de Resultados</th>
+        </tr>
+        <tr>
+            <td>Cross Device</td>
+            <td>10%</td>
+            <td id="tipo-campanha1"></td>
+            <td>$</td>
+            <td id="valor-cross1">-</td>
+            <td id="investimento1">-</td>
+            <td id="resultado1">-</td>
+        </tr>
+        <tr>
+            <td>3rd Party Data</td>
+            <td>55%</td>
+            <td id="tipo-campanha2"></td>
+            <td>$</td>
+            <td id="valor-unico1">-</td>
+            <td id="investimento2">-</td>
+            <td id="resultado2">-</td>
+        </tr>
+        <tr>
+            <td>Retargeting</td>
+            <td>35%</td>
+            <td id="tipo-campanha3"></td>
+            <td>$</td>
+            <td id="valor-ret1">-</td>
+            <td id="investimento3">-</td>
+            <td id="resultado3">-</td>
+        </tr>
+        <tr>
+            <th>Total Estimativa</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <th id="total-resultado">-</td>
+        </tr>
+    </table> <br><br>
+
+    <span>Para fazer o donwload da tabela como imagem (tabela-plano-de-midia.png), clique no botão abaixo:</span> 
+
+    <br><br><br>
+
+    <button id="capturar-tela">Salvar</button>
+
+    <br><br><br>
+
+    <span>Após fazer o donwload da imagem, você poderá anexar à proposta ou enviar ao cliente por qualquer outro meio de comunicação</span> 
+
+    <script>
+        // Função para atualizar os valores na tabela
+        function atualizarValores() {
+    // Obtém o tipo de campanha selecionado
+    var tipoCampanha = document.getElementById('tipo-campanha').value;
+    // Declaração de variáveis para os valores das diferentes opções de campanha
+    var valorUnico, valorCross, valorRet;
+
+    // Define os valores com base no tipo de campanha selecionado
+    switch (tipoCampanha) {
+        case 'CPC':
+            valorUnico = 3.84;
+            valorCross = 2.1;
+            valorRet = 4.08;
+            break;
+        case 'CPL':
+            valorUnico = 3.84;
+            valorCross = 2.1;
+            valorRet = 4.08;
+            break;
+        case 'CPM':
+            valorUnico = 2.30;
+            valorCross = 1.21;
+            valorRet = 1.89;
+            break;
+        default:
+            valorUnico = 0;
+            valorCross = 0;
+            valorRet = 0;
+            break;
+    }
+
+    // Obtém o valor de investimento digitado pelo usuário
+    var investimento = parseFloat(document.getElementById('valor-input').value) || 0;
+
+    // Atualiza os campos na tabela com os valores calculados
+    document.getElementById('tipo-campanha1').innerText = tipoCampanha;
+    document.getElementById('tipo-campanha2').innerText = tipoCampanha;
+    document.getElementById('tipo-campanha3').innerText = tipoCampanha;
+
+    document.getElementById('valor-cross1').innerText = valorCross;
+    document.getElementById('valor-unico1').innerText = valorUnico;
+    document.getElementById('valor-ret1').innerText = valorRet;
+
+    var investimento1 = investimento * 0.1;
+    var investimento2 = investimento * 0.55;
+    var investimento3 = investimento * 0.35;
+
+    var resultado1 = investimento * valorCross;
+    var resultado2 = investimento * valorUnico;
+    var resultado3 = investimento * valorRet;
+
+    document.getElementById('investimento1').innerText = investimento1.toFixed(2);
+    document.getElementById('investimento2').innerText = investimento2.toFixed(2);
+    document.getElementById('investimento3').innerText = investimento3.toFixed(2);
+
+    document.getElementById('resultado1').innerText = resultado1.toFixed(2);
+    document.getElementById('resultado2').innerText = resultado2.toFixed(2);
+    document.getElementById('resultado3').innerText = resultado3.toFixed(2);
+
+    // Calcula e atualiza o total da estimativa de resultados
+    var totalResultado = resultado1 + resultado2 + resultado3;
+
+    document.getElementById('total-resultado').innerText = totalResultado.toFixed(2);
+}
+
+// Eventos para atualizar os valores quando o tipo de campanha ou o investimento forem alterados
+document.getElementById('tipo-campanha').addEventListener('change', atualizarValores);
+document.getElementById('valor-input').addEventListener('input', atualizarValores);
+
+// Chama a função para atualizar os valores inicialmente
+atualizarValores();
+    </script>
+    <script>
+        document.getElementById('capturar-tela').addEventListener('click', function () {
+            console.log('Capturando tela...');
+            // Capturar a tabela como uma imagem
+            html2canvas(document.querySelector('table'), {
+                onrendered: function (canvas) {
+                    console.log('Tabela capturada.');
+                    // Converter o canvas em uma imagem
+                    var img = canvas.toDataURL('image/png');
+
+                    // Criar um elemento de link para baixar a imagem
+                    var link = document.createElement('a');
+                    link.href = img;
+                    link.download = 'tabela-plano-de-midia.png';
+                    document.body.appendChild(link);
+
+                    // Simular um clique no link para iniciar o download
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
